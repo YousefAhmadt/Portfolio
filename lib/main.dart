@@ -217,7 +217,7 @@ class HeroSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         const Text(
-          "Flutter Developer & Backend Engineer with 4+ years of experience deliver scalable mobile and backend solutions.\n Specialized in API development and Odoo systems, with a strong emphasis on performance, reliability, and business alignment.",
+          "Flutter Developer & Backend Engineer with 4+ years of experience delivering scalable mobile and backend solutions.\n Specialized in API development and Odoo systems, with a strong emphasis on performance, reliability, and business alignment.",
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 18),
         ),
@@ -432,6 +432,8 @@ class FeaturedProjectsSection extends StatelessWidget {
         _projectRow(false, "02", "Aldar News", "Developed the comprehensive admin dashboard and architected the backend API for the news platform.", "", "", "https://aldarnews.net/", "assets/aldar.png"),
         const SizedBox(height: 180),
         _projectRow(true, "03", "Trackware School", "Developed the Trackware School Management mobile application for both Android and iOS platforms.", "https://play.google.com/store/apps/details?id=trackware.schoolparenttrackware.parent", "https://apps.apple.com/app/trackware-school/id1183244199", "", "assets/trackwareB.jpeg"),
+        const SizedBox(height: 180),
+        _projectRow(false, "04", "Trackware (Odoo)", "Developed and customized specialized Odoo modules for school management and integrated with Firebase.", "", "", "https://trackware.com", "assets/trackwareOdoo.jpeg"),
       ],
     );
   }
@@ -501,7 +503,7 @@ class ContactSection extends StatelessWidget {
       children: [
         const Text("Get In Touch", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
         const SizedBox(height: 25),
-        const Text("I’m currently looking for new opportunities. Whether you have a question or just want to discuss Flutter, Odoo, or Backend architecture, my inbox is always open!", style: TextStyle(color: Colors.grey, fontSize: 17, height: 1.5)),
+        const Text("I’m currently looking for new opportunities or interesting projects to collaborate on. Whether you have a question or just want to discuss Flutter, Odoo, or Backend architecture, my inbox is always open!", style: TextStyle(color: Colors.grey, fontSize: 17, height: 1.5)),
         const SizedBox(height: 40),
         Wrap(
           spacing: 20,
