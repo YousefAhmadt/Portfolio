@@ -32,8 +32,8 @@ class PortfolioPage extends StatefulWidget {
 
 class _PortfolioPageState extends State<PortfolioPage> {
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
@@ -55,11 +55,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
     return Scaffold(
       body: Stack(
         children: [
+          // المحتوى القابل للتمرير
           SingleChildScrollView(
             controller: _scrollController,
             child: Column(
               children: [
-                const SizedBox(height: 100),
+                const SizedBox(height: 100), // مساحة لتعويض الـ Navbar الثابت
                 Center(
                   child: Container(
                     constraints: const BoxConstraints(maxWidth: 1200),
@@ -70,9 +71,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                         const SizedBox(height: 100),
                         const TechStackSection(),
                         const SizedBox(height: 150),
-                        AboutSection(key: _aboutKey),
-                        const SizedBox(height: 150),
-                        const WorkExperienceSection(),
+                        WorkExperienceSection(key: _aboutKey),
                         const SizedBox(height: 150),
                         FeaturedProjectsSection(key: _projectsKey),
                         const SizedBox(height: 150),
@@ -85,13 +84,14 @@ class _PortfolioPageState extends State<PortfolioPage> {
               ],
             ),
           ),
+          // Navbar الثابت في الأعلى
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF060112).withValues(alpha: 0.9),
+                color: const Color(0xFF060112).withValues(alpha: 0.9), // خلفية شبه شفافة
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.3),
@@ -140,7 +140,7 @@ class Navbar extends StatelessWidget {
             Row(
               children: [
                 _navItem("Home", onHomeTap),
-                _navItem("About", onAboutTap),
+                _navItem("Work Experience", onAboutTap),
                 _navItem("Projects", onProjectsTap),
                 _navItem("Contact", onContactTap),
               ],
@@ -196,7 +196,7 @@ class HeroSection extends StatelessWidget {
                 const Text("Hello! I Am Yousef Ahmad", style: TextStyle(color: Color(0xFFC084FC), fontSize: 16)),
                 const SizedBox(height: 20),
                 Image.asset(
-                  'assets/me.png',
+                  'me.png',
                   height: 220,
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(Icons.person, size: 100, color: Colors.white24);
@@ -228,67 +228,6 @@ class HeroSection extends StatelessWidget {
   }
 }
 
-class AboutSection extends StatelessWidget {
-  const AboutSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    bool isMobile = width < 800;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("About Me", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 40),
-        Flex(
-          direction: isMobile ? Axis.vertical : Axis.horizontal,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: isMobile ? 0 : 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("My Journey", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFC084FC))),
-                  const SizedBox(height: 20),
-                  Text(
-                    "With over 4 years in the industry, I have developed a deep expertise in Flutter for cross-platform mobile development and Odoo for robust backend systems. My work at Domedia, Trackware, and DCT Technology has allowed me to lead development teams and architect complex API structures.",
-                    style: TextStyle(color: Colors.grey[400], fontSize: 18, height: 1.6),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "I am passionate about clean code, performance optimization, and creating intuitive user experiences. My dual background in frontend and backend allows me to bridge the gap between complex system logic and elegant user interfaces.",
-                    style: TextStyle(color: Colors.grey[400], fontSize: 18, height: 1.6),
-                  ),
-                ],
-              ),
-            ),
-            if (!isMobile) const SizedBox(width: 80),
-            if (isMobile) const SizedBox(height: 40),
-            Expanded(
-              flex: isMobile ? 0 : 2,
-              child: Container(
-                height: 350,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.purple.withValues(alpha: 0.2)),
-                  gradient: LinearGradient(
-                    colors: [const Color(0xFF6C35DE).withValues(alpha: 0.1), Colors.transparent],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: const Center(child: Icon(Icons.auto_awesome_outlined, size: 100, color: Color(0xFFC084FC))),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
 class TechStackSection extends StatelessWidget {
   const TechStackSection({super.key});
 
@@ -308,25 +247,30 @@ class TechStackSection extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              CustomPaint(size: const Size(double.infinity, 400), painter: LinesPainter()),
+              CustomPaint(
+                size: const Size(double.infinity, 400),
+                painter: LinesPainter(),
+              ),
               Container(
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: const Color(0xFF1A0B3C),
-                  boxShadow: [BoxShadow(color: const Color(0xFF6C35DE).withValues(alpha: 0.6), blurRadius: 80, spreadRadius: 10)],
+                  boxShadow: [
+                    BoxShadow(color: const Color(0xFF6C35DE).withValues(alpha: 0.6), blurRadius: 80, spreadRadius: 10),
+                  ],
                 ),
                 child: const Center(child: Text("Σ", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold))),
               ),
-              _positionedIcon(0, -150, Icons.code, Colors.blue),
-              _positionedIcon(120, -100, Icons.terminal, Colors.greenAccent),
-              _positionedIcon(-120, -100, Icons.html, Colors.orange),
-              _positionedIcon(180, 0, Icons.storage, Colors.blueGrey),
-              _positionedIcon(-180, 0, Icons.description, Colors.orangeAccent),
-              _positionedIcon(120, 100, Icons.css, Colors.blueAccent),
-              _positionedIcon(-120, 100, Icons.javascript, Colors.yellow),
-              _positionedIcon(0, 150, Icons.data_array, Colors.green),
+              _positionedIcon(0, -150, Icons.code, Colors.blue), // Flutter/Dart
+              _positionedIcon(120, -100, Icons.terminal, Colors.greenAccent), // Python
+              _positionedIcon(-120, -100, Icons.html, Colors.orange), // HTML
+              _positionedIcon(180, 0, Icons.storage, Colors.blueGrey), // Database
+              _positionedIcon(-180, 0, Icons.description, Colors.orangeAccent), // XML
+              _positionedIcon(120, 100, Icons.css, Colors.blueAccent), // CSS
+              _positionedIcon(-120, 100, Icons.javascript, Colors.yellow), // JS
+              _positionedIcon(0, 150, Icons.data_array, Colors.green), // Logic/Data
             ],
           ),
         ),
@@ -353,16 +297,19 @@ class LinesPainter extends CustomPainter {
       ..color = const Color(0xFF6C35DE).withValues(alpha: 0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
+
     var center = Offset(size.width / 2, size.height / 2);
     for (var i = 0; i < 8; i++) {
       var path = Path();
       path.moveTo(center.dx, center.dy);
       path.lineTo(center.dx + 150 * (i == 0 || i == 4 ? 0 : (i < 4 ? 1 : -1)),
-          center.dy + 150 * (i == 2 || i == 6 ? 0 : (i > 0 && i < 4 ? -1 : 1)));
+                  center.dy + 150 * (i == 2 || i == 6 ? 0 : (i > 0 && i < 4 ? -1 : 1)));
       canvas.drawPath(path, paint);
     }
   }
-  @override bool shouldRepaint(covariant CustomPainter old) => false;
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class WorkExperienceSection extends StatelessWidget {
@@ -385,9 +332,27 @@ class WorkExperienceSection extends StatelessWidget {
             crossAxisSpacing: 30,
             mainAxisSpacing: 30,
             children: [
-              _expCard("Domedia", "Leading Flutter development and building scalable backend solutions.", "https://domedia.jo", const Color(0xFF2E1065)),
-              _expCard("Trackware", "Specialized in crafting robust mobile applications and custom Odoo modules.", "https://trackware.com", const Color(0xFF1E1B4B)),
-              _expCard("DCT TECHNOLOGY", "Developing high-performance mobile apps and optimized API architectures.", "https://dct-tech.com", const Color(0xFF4C1D95)),
+              _expCard(
+                const Color(0xFF2E1065),
+                Icons.phone_android,
+                "Domedia",
+                "Leading Flutter development and building scalable backend solutions with Odoo integration.",
+                "https://domedia.me"
+              ),
+              _expCard(
+                const Color(0xFF1E1B4B),
+                Icons.lightbulb_outline,
+                "Trackware",
+                "Specialized in crafting robust mobile applications and custom Odoo modules to streamline workflows.",
+                "https://trackware.com"
+              ),
+              _expCard(
+                const Color(0xFF4C1D95),
+                Icons.coffee_outlined,
+                "DCT TECHNOLOGY",
+                "Developing high-performance mobile apps and optimized API architectures for seamless experiences.",
+                ""
+              ),
             ],
           );
         }),
@@ -395,28 +360,41 @@ class WorkExperienceSection extends StatelessWidget {
     );
   }
 
-  Widget _expCard(String title, String dec, String url, Color color) {
+  Widget _expCard(Color bgColor, IconData icon, String title, String dec, String website) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.5)]),
+        gradient: LinearGradient(colors: [bgColor, bgColor.withValues(alpha: 0.5)], begin: Alignment.topLeft, end: Alignment.bottomRight),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.white10),
       ),
       padding: const EdgeInsets.all(25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: [
-          Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
-          Text(dec, style: const TextStyle(color: Colors.white70, fontSize: 13), maxLines: 2, overflow: TextOverflow.ellipsis),
-          const SizedBox(height: 15),
-          TextButton(
-            onPressed: () async {
-              final Uri uri = Uri.parse(url);
-              if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
-            },
-            child: const Text("LEARN MORE", style: TextStyle(fontSize: 11, color: Colors.white)),
+          Icon(icon, size: 45, color: const Color(0xFFC084FC)),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 5),
+                Text(dec, style: const TextStyle(color: Colors.white70, fontSize: 13), maxLines: 2, overflow: TextOverflow.ellipsis),
+                const SizedBox(height: 15),
+                TextButton(
+                  onPressed: () async {
+                    if (website.isNotEmpty) {
+                      final Uri url = Uri.parse(website);
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
+                    }
+                  },
+                  style: TextButton.styleFrom(backgroundColor: Colors.white10),
+                  child: const Text("LEARN MORE", style: TextStyle(fontSize: 11, color: Colors.white)),
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -430,103 +408,212 @@ class FeaturedProjectsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _projectRow(true, "01", "Ain FM", "Developed the Ain FM mobile application for both Android and iOS platforms, focusing on seamless API integration.", "https://play.google.com/store/apps/details?id=com.domediaJo.radioAin", "https://apps.apple.com/us/app/radio-ain-fm/id6746383493", "https://ainfm.com", "assets/ainfm98.png"),
+        _projectRow(
+          true,
+          "01",
+          "Ain FM",
+          "Developed the Ain FM mobile application for both Android and iOS platforms, focusing on seamless API integration to deliver a robust and high-performance user experience.",
+          "https://play.google.com/store/apps/details?id=com.domediaJo.radioAin&pli=1",
+          "https://apps.apple.com/us/app/radio-ain-fm/id6746383493",
+          "https://ainfm.com" ,
+          "ainfm98.png", Colors.white
+        ),
         const SizedBox(height: 180),
-        _projectRow(false, "02", "Aldar News", "Developed the comprehensive admin dashboard and architected the backend API for the news platform.", "", "", "https://aldarnews.net/", "assets/aldar.png"),
+        _projectRow(
+            true,
+          "02",
+          "Aldar News",
+          "Developed the comprehensive admin dashboard and architected the backend API, focusing on efficient content management and high-performance data delivery for the news platform.",
+          "", "", "https://aldarnews.net/", "aldar.png", Colors.white
+        ),
         const SizedBox(height: 180),
-        _projectRow(true, "03", "Trackware School", "Developed the Trackware School Management mobile application for both Android and iOS platforms.", "https://play.google.com/store/apps/details?id=trackware.schoolparenttrackware.parent", "https://apps.apple.com/app/trackware-school/id1183244199", "", "assets/trackwareB.jpeg"),
+        _projectRow(
+            true,
+            "03",
+            "Trackware School Management",
+            "Developed the Trackware School Management mobile application for both Android and iOS platforms, focusing on architecting robust backend APIs and ensuring seamless integration to deliver a high-performance user experience.",
+            "https://play.google.com/store/apps/details?id=trackware.schoolparenttrackware.parent&hl=en",
+            "https://apps.apple.com/app/trackware-school/id1183244199",
+            "" ,
+            "trackwareB.jpeg",
+            const Color(0xFF1A1A2E).withValues(alpha: 0.95)
+        ),
         const SizedBox(height: 180),
-        _projectRow(false, "04", "Trackware (Odoo)", "Developed and customized specialized Odoo modules for school management and integrated with Firebase.", "", "", "https://trackware.com", "assets/trackwareOdoo.jpeg"),
+        _projectRow(
+            true,
+            "04",
+            "Trackware - School Bus Driver",
+            "Developed the Trackware - School Bus Driver mobile application for Android platform, focusing on architecting robust backend APIs and ensuring seamless integration to deliver a high-performance user experience.",
+            "https://play.google.com/store/apps/details?id=trackware.schoolbustracker.driver&hl=en",
+            "",
+            "" ,
+            "trackwareB.jpeg",
+            const Color(0xFF1A1A2E).withValues(alpha: 0.95)
+        ),
+        const SizedBox(height: 180),
+        _projectRow(
+            false,
+            "05",
+            "Trackware School Management (Odoo)",
+            "Developed and customized specialized Odoo modules for school management, creating bespoke solutions and refactoring existing functionalities to optimize workflows. Successfully integrated the Odoo backend with Firebase to enable real-time data synchronization and seamless cross-platform communication.",
+            "",
+            "",
+            "https://trackware.com",
+            "trackwareOdoo.jpeg",
+            Colors.white
+        ),
       ],
     );
   }
 
-  Widget _projectRow(bool left, String num, String title, String dec, String and, String ios, String web, String img) {
+  Widget _projectRow(bool leftText, String num, String title, String dec, String android, String ios, String web, String image, Color colorTit) {
     return LayoutBuilder(builder: (context, constraints) {
       bool isMobile = constraints.maxWidth < 900;
       return Stack(
         clipBehavior: Clip.none,
-        alignment: left ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: leftText ? Alignment.centerRight : Alignment.centerLeft,
         children: [
           Container(
             width: isMobile ? double.infinity : constraints.maxWidth * 0.7,
             height: 400,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(40)),
+            decoration: BoxDecoration(
+              color: Colors.white10,
+              borderRadius: BorderRadius.circular(40),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withValues(alpha: 0.1),
+                  blurRadius: 100,
+                  spreadRadius: 10,
+                )
+              ],
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
-              child: Image.asset(img, fit: BoxFit.cover, errorBuilder: (c, e, s) => const Icon(Icons.image, size: 50)),
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Center(child: Icon(Icons.image, size: 50)),
+              ),
             ),
           ),
           Positioned(
-            left: left && !isMobile ? 0 : null,
-            right: !left && !isMobile ? 0 : null,
-            child: Container(
-              width: isMobile ? constraints.maxWidth * 0.9 : 520,
-              padding: const EdgeInsets.all(35),
-              decoration: BoxDecoration(
-                color: const Color(0xFF1A1A2E).withValues(alpha: 0.95),
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.white10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Featured Project", style: TextStyle(color: Color(0xFFC084FC), fontSize: 14)),
-                  Text(title, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 20),
-                  Text(dec, style: const TextStyle(color: Colors.grey, height: 1.6, fontSize: 14)),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      if (and.isNotEmpty) IconButton(onPressed: () => _launch(and), icon: const Icon(Icons.android, size: 22)),
-                      if (ios.isNotEmpty) IconButton(onPressed: () => _launch(ios), icon: const Icon(Icons.apple, size: 22)),
-                      if (web.isNotEmpty) IconButton(onPressed: () => _launch(web), icon: const Icon(Icons.web, size: 22)),
+            left: leftText && !isMobile ? 0 : null,
+            right: !leftText && !isMobile ? 0 : null,
+            child: Column(
+              crossAxisAlignment: leftText ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+              children: [
+                const Text("Featured Project", style: TextStyle(color: Color(0xFFC084FC), fontSize: 14)),
+                Text(title, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: colorTit)),
+                const SizedBox(height: 20),
+                Container(
+                  width: isMobile ? constraints.maxWidth * 0.9 : 520,
+                  padding: const EdgeInsets.all(35),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A2E).withValues(alpha: 0.95),
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.white10),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20)
                     ],
-                  )
-                ],
-              ),
+                  ),
+                  child: Text(
+                    dec,
+                    style: const TextStyle(color: Colors.grey, height: 1.6, fontSize: 14),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (android.isNotEmpty)
+                        IconButton(
+                          onPressed: () => _launchUrl(android),
+                          icon:  Icon(Icons.android, color:colorTit , size: 22),
+                        ),
+                      if (ios.isNotEmpty)
+                        IconButton(
+                          onPressed: () => _launchUrl(ios),
+                          icon:  Icon(Icons.apple, color: colorTit, size: 22),
+                        ),
+                      if (web.isNotEmpty)
+                        IconButton(
+                          onPressed: () => _launchUrl(web),
+                          icon:  Icon(Icons.web, color: colorTit, size: 22),
+                        ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ],
       );
     });
   }
-  Future<void> _launch(String url) async {
+
+  Future<void> _launchUrl(String url) async {
     final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 }
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Get In Touch", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+        const Text(
+          "Get In Touch",
+          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 25),
-        const Text("I’m currently looking for new opportunities or interesting projects to collaborate on. Whether you have a question or just want to discuss Flutter, Odoo, or Backend architecture, my inbox is always open!", style: TextStyle(color: Colors.grey, fontSize: 17, height: 1.5)),
+        const Text(
+          "I’m currently looking for new opportunities or interesting projects to collaborate on. Whether you have a question or just want to discuss Flutter, Odoo, or Backend architecture, my inbox is always open!",
+          style: TextStyle(color: Colors.grey, fontSize: 17, height: 1.5),
+        ),
         const SizedBox(height: 40),
         Wrap(
           spacing: 20,
           runSpacing: 20,
           children: [
-            _contactCard(Icons.email_outlined, "yousef.ahmad.alfqeh@gmail.com", () async {
-              final Uri uri = Uri(scheme: 'mailto', path: 'yousef.ahmad.alfqeh@gmail.com');
-              if (await canLaunchUrl(uri)) await launchUrl(uri);
-            }),
-            _contactCard(Icons.chat_outlined, "WhatsApp Me", () async {
-              final Uri uri = Uri.parse("https://wa.me/9627XXXXXXXX"); // استبدل برقمك
-              if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
-            }),
+            _buildContactCard(
+              icon: Icons.email_outlined,
+              label: "yousef.ahmad.alfqeh@gmail.com",
+              onTap: () async {
+                final Uri uri = Uri(scheme: 'mailto', path: 'yousef.ahmad.alfqeh@gmail.com');
+                if (await canLaunchUrl(uri)) await launchUrl(uri);
+              },
+            ),
+            _buildContactCard(
+              icon: Icons.chat_outlined,
+              label: "WhatsApp Me",
+              onTap: () async {
+                final Uri uri = Uri.parse("https://wa.me/9627799807675");
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+            ),
           ],
         ),
       ],
     );
   }
-  Widget _contactCard(IconData icon, String label, VoidCallback onTap) {
+
+  Widget _buildContactCard({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -542,7 +629,14 @@ class ContactSection extends StatelessWidget {
           children: [
             Icon(icon, color: const Color(0xFFC084FC)),
             const SizedBox(width: 15),
-            Text(label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFC084FC))),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFC084FC),
+              ),
+            ),
           ],
         ),
       ),
